@@ -1,7 +1,7 @@
-namespace CutilloRigby.Devices.Tca8418;
+namespace CutilloRigby.Devices.TCA8418;
 
 [Flags]
-public enum TCA8418ConfigurationRegister : byte
+public enum Tca8418ConfigurationRegister : byte
 {
     AI = 0x80,           ///< Auto-increment for read/write
     GPI_E_CGF = 0x40,    ///< Event mode config

@@ -1,4 +1,4 @@
-using CutilloRigby.Devices.Tca8418;
+using CutilloRigby.Devices.TCA8418;
 
 #pragma warning disable IDE0130 // Namespace does not match folder structure
 namespace System.Device.I2c;
@@ -6,7 +6,7 @@ namespace System.Device.I2c;
 
 public static class I2cDeviceExtensions
 {
-    public static byte ReadRegister(this I2cDevice i2cDevice, TCA8418Register reg) 
+    public static byte ReadRegister(this I2cDevice i2cDevice, Tca8418Register reg) 
     {
         Span<byte> writeBuffer = [(byte)reg];
         Span<byte> readBuffer = stackalloc byte[1];
@@ -15,7 +15,7 @@ public static class I2cDeviceExtensions
         return readBuffer[0];
     }
 
-    public static void WriteRegister(this I2cDevice i2cDevice, TCA8418Register reg, byte value) 
+    public static void WriteRegister(this I2cDevice i2cDevice, Tca8418Register reg, byte value) 
     {
         Span<byte> buffer = [(byte)reg, value];
         i2cDevice.Write(buffer);

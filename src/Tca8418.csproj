@@ -2,9 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
+    <AssemblyName>CutilloRigby.Device.TCA8418</AssemblyName>
+    <RootNamespace>CutilloRigby.Devices.TCA8418</RootNamespace>
+    <Authors>Martin Cutillo-Rigby</Authors>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <PackageId>CutilloRigby.Device.TCA8418</PackageId>
+    <Product>CutilloRigby.Device.TCA8418</Product>
+    <Version>1.0.0</Version>
+    <Description>TCA8418 I2C Key Scanner</Description>
+    <OutputType>Library</OutputType>
+    <StartupObject />
+    <IsPackable>true</IsPackable>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>CutilloRigby.Devices.Tca8418</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

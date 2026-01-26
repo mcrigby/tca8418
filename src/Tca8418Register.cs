@@ -1,6 +1,6 @@
-namespace CutilloRigby.Devices.Tca8418;
+namespace CutilloRigby.Devices.TCA8418;
 
-public enum TCA8418Register : byte
+public enum Tca8418Register : byte
 {
     RESERVED = 0x00,
     CFG = 0x01,             ///< Configuration register

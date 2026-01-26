@@ -1,6 +1,6 @@
-namespace CutilloRigby.Devices.Tca8418;
+namespace CutilloRigby.Devices.TCA8418;
 
-public enum TCA8418Pin : byte
+public enum Tca8418Pin : byte
 {
   ROW0, // Pin ID for row 0
   ROW1, // Pin ID for row 1

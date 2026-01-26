@@ -1,7 +1,7 @@
-namespace CutilloRigby.Devices.Tca8418;
+namespace CutilloRigby.Devices.TCA8418;
 
 [Flags]
-public enum TCA8418KeyLockEventCounterRegister : byte
+public enum Tca8418KeyLockEventCounterRegister : byte
 {
     K_LCK_EN = 0x40, ///< Key lock enable
     LCK_2 = 0x20,    ///< Keypad lock status 2

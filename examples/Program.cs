@@ -2,7 +2,7 @@
 
 I2cConnectionSettings _i2CConnectionSettings;
 I2cDevice _i2CDevice;
-CutilloRigby.Devices.Tca8418.TCA8418 tca8418;
+CutilloRigby.Devices.TCA8418.Tca8418 tca8418;
 
 const int busId = 1;
 const int deviceAddress = 0x34;
