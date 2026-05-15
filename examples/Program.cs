@@ -1,11 +1,9 @@
-﻿using System.Device.I2c;
+﻿using System.Device.Gpio;
+using System.Device.I2c;
 
-I2cConnectionSettings _i2CConnectionSettings;
-I2cDevice _i2CDevice;
-CutilloRigby.Devices.TCA8418.Tca8418 tca8418;
+GpioController _gpioController = new();
+CutilloRigby.Devices.TCA8418.Tca8418Configuration _tca8418Configuration= new(17, 27);
 
-const int busId = 1;
-const int deviceAddress = 0x34;
 const byte columns = 10;
 const byte rows = 8;
 
@@ -16,39 +14,49 @@ Console.CancelKeyPress += (s, e) =>
     e.Cancel = true;    
 };
 
-_i2CConnectionSettings = new(busId, deviceAddress);
-_i2CDevice = I2cDevice.Create(_i2CConnectionSettings);
-
-tca8418 = new(_i2CDevice);
-tca8418.Matrix(rows, columns);   
-tca8418.Flush(); 
-
+using CutilloRigby.Devices.TCA8418.Tca8418 _tca8418 = CutilloRigby.Devices.TCA8418.Tca8418.Create(_gpioController, _tca8418Configuration);
 CancellationToken cancellationToken = cancellationTokenSource.Token;
-
 while(!cancellationToken.IsCancellationRequested )
 {
-    if (tca8418.EventsAvailable() == 0)
-    {
-        await Task.Delay(50, cancellationToken);
-        continue;
-    }
+    Console.WriteLine("Resetting");
+    await _tca8418.Reset(cancellationTokenSource.Token);
+    _tca8418.Matrix(rows, columns);
 
-    do
+    CancellationTokenSource timedCancellation = new(10000);
+    while(!timedCancellation.IsCancellationRequested)
     {
-        byte key = tca8418.GetEvent();
-        bool pressed = (key & 0x80) == 0x80;
-        byte value = (byte)((key & 0x7f) -1);
-        byte row = (byte)(value / 10);
-        byte column = (byte)(value % 10);
-        string pressedString = pressed ? "Pressed" : "Released";
-
         try
         {
-            Console.WriteLine($"CxR: {column}x{row}. {pressedString}.");
+            if (_tca8418.EventsAvailable() == 0)
+            {
+                await Task.Delay(50, timedCancellation.Token);
+                continue;
+            }
+
+            do
+            {
+                byte key = _tca8418.GetEvent();
+                bool pressed = (key & 0x80) == 0x80;
+                byte value = (byte)((key & 0x7f) -1);
+                byte row = (byte)(value / 10);
+                byte column = (byte)(value % 10);
+                string pressedString = pressed ? "Pressed" : "Released";
+
+                try
+                {
+                    Console.WriteLine($"CxR: {column}x{row}. {pressedString}.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"CxR: {column}x{row}. Error: {ex.Message}");
+                }
+            } while(_tca8418.EventsAvailable() > 0);
         }
-        catch (Exception ex)
+        catch (OperationCanceledException ocex)
         {
-            Console.WriteLine($"CxR: {column}x{row}. Error: {ex.Message}");
+            Console.WriteLine(ocex.Message);
         }
-    } while(tca8418.EventsAvailable() > 0);
+    }
 }
+
+_tca8418.Dump(Console.WriteLine);
