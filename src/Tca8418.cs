@@ -289,6 +289,7 @@ public sealed class Tca8418 : IDisposable
     public void Dispose()
     {
         _interruptPin.ValueChanged -= InterruptOccurred;
+        _i2CDevice.Dispose();
     }
 
     public static Tca8418 Create(GpioController gpioController, Tca8418Configuration tca8418Configuration, byte busId = DefaultBusId, byte deviceAddress = DefaultDeviceAddress)

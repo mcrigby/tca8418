@@ -1,5 +1,4 @@
 ﻿using System.Device.Gpio;
-using System.Device.I2c;
 
 GpioController _gpioController = new();
 CutilloRigby.Devices.TCA8418.Tca8418Configuration _tca8418Configuration= new(17, 27);
